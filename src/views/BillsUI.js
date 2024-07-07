@@ -8,12 +8,12 @@ import { formatDate, formatStatus } from "../app/format.js"
 
 const row = (bill) => {
   return (`
-    <tr>
-      <td>${bill.type}</td>
-      <td>${bill.name}</td>
-      <td>${formatDate(bill.date)}</td>
-      <td>${bill.amount} €</td>
-      <td>${bill.status}</td>
+    <tr data-testid="bill">
+      <td data-testid="type">${bill.type}</td>
+      <td data-testid="name">${bill.name}</td>
+      <td data-testid="date">${formatDate(bill.date)}</td>
+      <td data-testid="amount">${bill.amount} €</td>
+      <td data-testid="status">${bill.status}</td>
       <td>
         ${Actions(bill.fileUrl)}
       </td>
@@ -22,12 +22,10 @@ const row = (bill) => {
   }
 
 
-const rows = (data) => {
-  console.log(data)
-  // Trier les factures par date décroissante
-  const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
-  return (sortedData && sortedData.length) ? sortedData.map(bill => row(bill)).join("") : ""
-}
+  const rows = (data) => {
+    data?.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
+    return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  }
 
 
 
